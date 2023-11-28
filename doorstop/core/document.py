@@ -2,11 +2,13 @@
 
 """Representation of a collection of items."""
 
+import importlib
 import os
 import re
 from collections import OrderedDict
 from itertools import chain
 from typing import Any, Dict, List
+from pathlib import Path
 
 import yaml
 
