@@ -81,6 +81,8 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
         if not self._data["itemformat"]:
             self._data["itemformat"] = Item.DEFAULT_ITEMFORMAT
 
+        self.extensions = None
+
     def __repr__(self):
         return "Document('{}')".format(self.path)
 
