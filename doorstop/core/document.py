@@ -2,7 +2,6 @@
 
 """Representation of a collection of items."""
 
-import importlib
 import os
 import re
 from collections import OrderedDict
