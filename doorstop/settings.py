@@ -40,7 +40,7 @@ WARN_ALL = False  # display info-level issues as warnings
 ERROR_ALL = False  # display warning-level issues as errors
 
 # Review settings
-REVIEW_NEW_ITEMS = True  # automatically review new items during validation
+REVIEW_NEW_ITEMS = False  # automatically review new items during validation
 
 # Stamping settings
 STAMP_NEW_LINKS = True  # automatically stamp links upon creation
@@ -53,7 +53,7 @@ ENABLE_HEADERS = True  # use headers if defined
 WRITE_LINESEPERATOR = os.linesep
 
 # Version control settings
-ADDREMOVE_FILES = True  # automatically add/remove new/changed files
+ADDREMOVE_FILES = False  # automatically add/remove new/changed files
 
 # Caching settings
 CACHE_ITEMS = True  # cache items in documents and trees
