@@ -1,0 +1,59 @@
+name: Codethink Doorstop Release
+
+on:
+  push:
+    tags: 
+      - "3.*"
+
+jobs:
+  tests:
+    uses: ./.github/workflows/execute-tests.yml
+    with:
+      os: "ubuntu-latest"
+      workpath: "/home/runner/work/doorstop/doorstop"
+
+  build-and-upload:
+    needs: tests
+    name: Build and Upload
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+       python: ["3.10", "3.11", "3.12"]
+       os:
+          - ubuntu-latest
+          # - macos-latest
+          # - windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - uses: Gr1N/setup-poetry@v9
+
+      - run: poetry version ${{ github.ref_name }}
+        name: Set poetry version
+
+      - name: Build wheels and sdist (tarball)
+        run: make dist
+
+      - uses: actions/cache@v4
+        with:
+          path: .venv
+          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+
+      - name: Create Github Release
+        uses: softprops/action-gh-release@v2
+        if: ${{ matrix.python == '3.12' && matrix.os == 'ubuntu-latest'}}
+        with:
+          files: |
+                dist/*.whl
+                dist/*.tar.gz
+          tag_name: ${{ github.ref_name }}
+          token: '${{ secrets.RELEASE_TOKEN}}'
+
+
