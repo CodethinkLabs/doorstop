@@ -65,7 +65,7 @@ isort = "^5.12"
 # Linters
 mypy = "^1.1.1"
 pydocstyle = "*"
-pylint = "~2.15"
+pylint = "~3.2"
 types-markdown = "*"
 types-pyyaml = "*"
 types-requests = "*"
