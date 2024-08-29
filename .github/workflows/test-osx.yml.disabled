@@ -1,0 +1,12 @@
+# name: macOS
+#
+# on:
+#   pull_request:
+#     branches: [ main ]
+#
+# jobs:
+#   Test:
+#     uses: ./.github/workflows/execute-tests.yml
+#     with:
+#       os: "macos-latest"
+#       workpath: "/Users/runner/work/doorstop/doorstop"
