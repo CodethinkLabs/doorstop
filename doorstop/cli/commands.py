@@ -515,14 +515,21 @@ def run_export(args, cwd, error, catch=True, auto=False, _tree=None):
 
     # Write to output file(s)
     if args.path:
+        # This only executes if success context returns something that
+        # can be classified as true and document is access only when whole tree is **False**,
+        # it safe to ignore the warning regarding document due to this.
+        # pylint: disable=E0606
+
         if whole_tree:
             msg = "exporting tree to '{}'...".format(args.path)
             utilities.show(msg, flush=True)
             path = exporter.export(tree, args.path, ext, auto=auto)
+
         else:
             msg = "exporting document {} to '{}'...".format(document, args.path)
             utilities.show(msg, flush=True)
             path = exporter.export(document, args.path, ext, auto=auto)
+
         if path:
             utilities.show("exported: {}".format(path))
 
@@ -565,6 +572,11 @@ def run_publish(args, cwd, error, catch=True):
 
     # Write to output file(s)
     if args.path:
+        # This only executes if success context returns something that
+        # can be classified as true and document is access only when whole tree is **False**,
+        # it safe to ignore the warning regarding document due to this.
+        # pylint: disable=E0606
+
         path = os.path.abspath(os.path.join(cwd, args.path))
         if whole_tree:
             msg = "publishing tree to '{}'...".format(path)
@@ -667,12 +679,10 @@ def _iter_items(args, tree, error):
     if item:
         yield item
     elif document:
-        for item in document:
-            yield item
+        yield from document
     else:
         for document in tree:
-            for item in document:
-                yield item
+            yield from document
 
 
 def _export_import(args, cwd, error, document, ext):

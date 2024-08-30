@@ -82,6 +82,7 @@ def launch(path, tool=None):
 
     """
     # Determine how to launch the editor
+    args = ["Non-valid-editor"]  # place holder, if everything fails
     if tool:
         args = [tool, path]
     elif sys.platform.startswith("darwin"):

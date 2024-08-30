@@ -388,6 +388,8 @@ class TestImporter(unittest.TestCase):
 
     def tearDown(self):
         os.chdir(self.cwd)
+        # until we only support 3.12+ ignore this, as we need to move to onexc instead of onerror
+        # pylint: disable=W4903
         shutil.rmtree(self.temp, onerror=on_error_with_retry)
 
     def test_import_yml(self):
@@ -522,6 +524,8 @@ class TestExporter(unittest.TestCase):
         self.temp = tempfile.mkdtemp()
 
     def tearDown(self):
+        # until we only support 3.12+ ignore this, as we need to move to onexc instead of onerror
+        # pylint: disable=W4903
         shutil.rmtree(self.temp, onerror=on_error_with_retry)
 
     def test_export_yml(self):
@@ -578,6 +582,8 @@ class TestPublisher(unittest.TestCase):
 
     def tearDown(self):
         if os.path.exists(self.temp):
+            # until we only support 3.12+ ignore this, as we need to move to onexc instead of onerror
+            # pylint: disable=W4903
             shutil.rmtree(self.temp, onerror=on_error_with_retry)
 
     def test_publish_html(self):
