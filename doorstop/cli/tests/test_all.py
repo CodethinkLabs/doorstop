@@ -37,6 +37,9 @@ class TempTestCase(unittest.TestCase):
     def tearDown(self):
         os.chdir(self.cwd)
         if os.path.exists(self.temp):
+
+            # until we only support 3.12+ ignore this, as we need to move to onexc instead of onerror
+            # pylint: disable=W4903
             shutil.rmtree(self.temp, onerror=on_error_with_retry)
 
 
@@ -63,6 +66,8 @@ class TestMain(SettingsTestCase):
     def tearDown(self):
         super().tearDown()
         os.chdir(self.cwd)
+        # until we only support 3.12+ ignore this, as we need to move to onexc instead of onerror
+        # pylint: disable=W4903
         shutil.rmtree(self.temp, onerror=on_error_with_retry)
 
     def test_main(self):
