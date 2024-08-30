@@ -41,6 +41,8 @@ class TestModule(MockDataMixIn, unittest.TestCase):
     def tearDownClass(cls):
         """Remove test folder."""
         if os.path.exists("mock_%s" % __name__):
+            # until we only support 3.12+ ignore this, as we need to move to onexc instead of onerror
+            # pylint: disable=W4903
             rmtree("mock_%s" % __name__, onerror=on_error_with_retry)
 
     def test_publish_document_unknown(self):
