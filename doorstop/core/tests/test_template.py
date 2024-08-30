@@ -43,6 +43,8 @@ class TestTemplate(MockDataMixIn, unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         """Remove test folder."""
+        # until we only support 3.12+ ignore this, as we need to move to onexc instead of onerror
+        # pylint: disable=W4903
         rmtree(cls.testdir, onerror=on_error_with_retry)
 
     def test_standard_html_doc(self):
