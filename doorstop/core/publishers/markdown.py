@@ -22,6 +22,9 @@ class MarkdownPublisher(BasePublisher):
 
     def format_attr_list(self, item, linkify):
         """Create a Markdown attribute list for a heading."""
+        if settings.PUBLISH_MKDOCS:
+            return ""
+
         return " {{#{u}}}".format(u=item.uid) if linkify else ""
 
     def format_ref(self, item):
@@ -136,7 +139,7 @@ class MarkdownPublisher(BasePublisher):
         """
         linkify = kwargs.get("linkify", False)
         toc = kwargs.get("toc", False)
-        if toc:
+        if toc and not settings.PUBLISH_MKDOCS:
             yield self.table_of_contents(linkify=linkify, obj=obj)
 
         yield from self._lines_markdown(obj, **kwargs)
@@ -148,6 +151,10 @@ class MarkdownPublisher(BasePublisher):
         """
         result = ""
         heading = "#" * item.depth
+
+        if settings.PUBLISH_MKDOCS:
+            heading = "#" * (item.depth + 1)
+
         level = format_level(item.level)
         if item.heading:
             text_lines = item.text.splitlines()
