@@ -3,7 +3,7 @@ name: Codethink Doorstop Release
 on:
   push:
     tags: 
-      - "3.*"
+      - "v3.*"
 
 jobs:
   tests:
