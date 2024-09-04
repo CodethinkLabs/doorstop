@@ -19,6 +19,12 @@ log = common.logger(__name__)
 EDITOR = os.environ.get("EDITOR")
 
 
+def findrc_file() -> Path | None:
+    cwd = Path.cwd()
+    doorstoprc = cwd / ".doorstoprc.py"
+    return doorstoprc if doorstoprc.is_file() else None
+
+
 def main(args=None):  # pylint: disable=R0915
     """Process command-line arguments and run the program."""
     from doorstop import CLI, DESCRIPTION, VERSION
@@ -180,8 +186,9 @@ def main(args=None):  # pylint: disable=R0915
     utilities.configure_logging(args.verbose)
 
     # Configure settings
-    if args.settings:
-        file_settings = common.import_path_as_module(Path(args.settings))
+    run_settings = args.settings or findrc_file()
+    if run_settings:
+        file_settings = common.import_path_as_module(Path(run_settings))
         # get  overridden setting list
         custom_settings = (
             x
