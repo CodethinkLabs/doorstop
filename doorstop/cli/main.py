@@ -188,8 +188,12 @@ def main(args=None):  # pylint: disable=R0915
     # Configure settings
     run_settings = args.settings or findrc_file()
     if run_settings:
-        file_settings = common.import_path_as_module(Path(run_settings))
-        # get  overridden setting list
+        run_settings = (
+            Path(run_settings) if isinstance(run_settings, str) else run_settings
+        )
+        log.debug(f"Loading settings from: {run_settings}")
+        file_settings = common.import_path_as_module(run_settings)
+        # get  overridden settings list
         custom_settings = (
             x
             for x in dir(file_settings)
@@ -201,6 +205,7 @@ def main(args=None):  # pylint: disable=R0915
             if hasattr(settings, i):
                 setattr(settings, i, getattr(file_settings, i))
     else:
+        log.debug("Loading default settings")
         utilities.configure_settings(args)
 
     # Run the program
