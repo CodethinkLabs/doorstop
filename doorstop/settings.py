@@ -64,3 +64,6 @@ CACHE_PATHS = True  # cache file/directory paths and contents
 # Server settings
 SERVER_HOST = None  # '' = server not specified, None = no server in use
 SERVER_PORT = 7867
+
+# Unhidden file
+UNHIDDEN_FILEPATH = ".doorstop_unhidden"  # list of paths that should not be hidden
