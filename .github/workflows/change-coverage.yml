@@ -24,10 +24,10 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
           architecture: x64
 
-      - uses: Gr1N/setup-poetry@v8
+      - uses: Gr1N/setup-poetry@v9
 
       - name: Check system dependencies
         run: make doctor
@@ -43,6 +43,6 @@ jobs:
       - name: Check coverage
         run: |
           TEST_INTEGRATION=true poetry run pytest doorstop --doctest-modules --cov=doorstop --cov-report=xml --cov-report=term-missing
-          git fetch origin develop:develop
+          git fetch origin main:main
           # TEST_INTEGRATION=true poetry run diff-cover ./coverage.xml --fail-under=100 --compare-branch=develop
-          TEST_INTEGRATION=true poetry run diff-cover ./coverage.xml --fail-under=100 --compare-branch=$(git for-each-ref --sort=-committerdate refs/heads/develop | cut -f 1 -d ' ')
+          TEST_INTEGRATION=true poetry run diff-cover ./coverage.xml --fail-under=100 --compare-branch=$(git for-each-ref --sort=-committerdate refs/heads/main | cut -f 1 -d ' ')
