@@ -22,6 +22,7 @@ class BaseWorkingCopy(metaclass=ABCMeta):
     def __init__(self, path):
         self.path = path
         self._ignores_cache: Optional[List[str]] = None
+        self._unhidden_cache: Optional[List[str]] = None
         self._path_cache: Optional[List[Tuple[str, str, str]]] = None
 
     @staticmethod
@@ -82,6 +83,21 @@ class BaseWorkingCopy(metaclass=ABCMeta):
         yield from self._ignores_cache
 
     @property
+    def unhidden(self):
+        """Yield glob expressions for paths that should not be hidden."""
+        if self._unhidden_cache is None:
+            self._unhidden_cache = []
+            log.debug("reading and caching the unhidden patterns...")
+            path = os.path.join(self.path, settings.UNHIDDEN_FILEPATH)
+            if os.path.isfile(path):
+                for line in common.read_lines(path):
+                    log.debug(f"unhiding {line}")
+                    pattern = line.strip(" @\\/*\n")
+                    if pattern and not pattern.startswith("#"):
+                        self._unhidden_cache.append("*" + pattern + "*")
+        yield from self._unhidden_cache
+
+    @property
     def paths(self):
         """Yield non-ignored paths in the working copy."""
         if self._path_cache is None or not settings.CACHE_PATHS:
@@ -94,6 +110,11 @@ class BaseWorkingCopy(metaclass=ABCMeta):
                     # Skip ignored paths
                     if self.ignored(relpath):
                         continue
+                    # Don't skip unhidden paths
+                    if self.is_unhidden(relpath):
+                        log.debug(f"not skipping: {relpath}")
+                        self._path_cache.append((path, filename, relpath))
+                        continue
                     # Skip hidden paths
                     if os.path.sep + "." in os.path.sep + relpath:
                         continue
@@ -103,6 +124,13 @@ class BaseWorkingCopy(metaclass=ABCMeta):
     def ignored(self, path):
         """Determine if a path matches an ignored pattern."""
         for pattern in self.ignores:
+            if fnmatch.fnmatch(path, pattern):
+                return True
+        return False
+
+    def is_unhidden(self, path):
+        """Determine if a path matches a pattern that should not hidden."""
+        for pattern in self.unhidden:
             if fnmatch.fnmatch(path, pattern):
                 return True
         return False
