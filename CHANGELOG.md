@@ -1,3 +1,15 @@
+# 3.0 (beta) Codethink 0.2
+
+- Allow references to hidden file paths
+- Bump package versions to address security issues
+
+# 3.0 (beta) Codethink 0.1
+
+- Add publish support for AsciiDoc output
+- Ability to define settings through `.doorstoprc.py`
+- Support for mkdocs-flavoured markdown
+- Dropped support to python 3.9
+
 # 3.0 (beta)
 
 - **BREAKING:** Dropped support for Python 3.6, 3.7, and 3.8.
