@@ -43,7 +43,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           architecture: x64
 
-      - uses: Gr1N/setup-poetry@v8
+      - uses: Gr1N/setup-poetry@v9
 
       - name: Check system dependencies
         run: make doctor
@@ -67,11 +67,12 @@ jobs:
           current_path: ${{ inputs.workpath }}
           attempt_limit: 5
           attempt_delay: 2000
-      - name: Upload coverage
-        uses: codecov/codecov-action@v1
-        if: ${{ inputs.os == 'ubuntu-latest' && matrix.python-version == '3.10' && github.repository == 'doorstop-dev/doorstop' }}
-        with:
-          fail_ci_if_error: true
+          #
+      # - name: Upload coverage
+      #   uses: codecov/codecov-action@v1
+      #   if: ${{ inputs.os == 'ubuntu-latest' && matrix.python-version == '3.10' && github.repository == 'doorstop-dev/doorstop' }}
+      #   with:
+      #     fail_ci_if_error: true
 
       - name: Run checks
         run: make check
