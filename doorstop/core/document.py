@@ -77,6 +77,8 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
         self._items: List[Item] = []
         self._itered = False
         self.children: List[Document] = []
+        self.external_parent: str | None = None
+        self.external_parent_tag: str | None = None
 
         if not self._data["itemformat"]:
             self._data["itemformat"] = Item.DEFAULT_ITEMFORMAT
@@ -236,6 +238,8 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
                 raise DoorstopError(msg)
 
         self.extensions = data.get("extensions", {})
+        self.external_parent = data.get("external_parent", None)
+        self.external_parent_tag = data.get("external_parent_tag", None)
 
         # Set meta attributes
         self._loaded = True
