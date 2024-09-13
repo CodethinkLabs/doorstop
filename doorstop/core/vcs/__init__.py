@@ -3,6 +3,7 @@
 """Interfaces to version control systems."""
 
 import os
+from pathlib import Path
 
 from doorstop import common
 from doorstop.common import DoorstopError
@@ -46,9 +47,15 @@ def find_root(cwd):
 
 def load(path):
     """Return a working copy for the specified path."""
+    if ".doorstop-external" in path:
+        realpath = Path(path.split(".doorstop-external")[0])  # Cheat to get the root.
+        # We only support this with git...
+        return DIRECTORIES[".git"](realpath)  # type: ignore
+
     for directory in os.listdir(path):
         if directory in DIRECTORIES:
             return DIRECTORIES[directory](path)  # type: ignore
 
-    log.warning("no working copy found at: {}".format(path))
+    if ".doorstop-external" not in path:
+        log.warning("no working copy found at: {}".format(path))
     return DEFAULT(path)
