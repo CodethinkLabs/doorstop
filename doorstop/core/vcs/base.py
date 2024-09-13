@@ -115,8 +115,11 @@ class BaseWorkingCopy(metaclass=ABCMeta):
                         log.debug(f"not skipping: {relpath}")
                         self._path_cache.append((path, filename, relpath))
                         continue
-                    # Skip hidden paths
-                    if os.path.sep + "." in os.path.sep + relpath:
+                    # Skip hidden paths except for 'external folder'
+                    if (
+                        ".doorstop-external" not in relpath
+                        and os.path.sep + "." in os.path.sep + relpath
+                    ):
                         continue
                     self._path_cache.append((path, filename, relpath))
         yield from self._path_cache
