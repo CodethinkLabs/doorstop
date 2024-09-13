@@ -6,6 +6,7 @@ import functools
 import hashlib
 import linecache
 import os
+from pathlib import Path
 from typing import Any, List
 
 from doorstop import common, settings
@@ -258,7 +259,11 @@ class Item(BaseFileObject):  # pylint: disable=R0902
                 stripped_value = []
                 for ref_dict in value:
                     ref_type = ref_dict["type"]
-                    ref_path = ref_dict["path"]
+                    ref_path = (
+                        ref_dict["path"]
+                        if ".doorstop-external" not in self.path  # type: ignore
+                        else str(Path(self.root) / ref_dict["path"])
+                    )
 
                     stripped_ref_dict = {"type": ref_type, "path": ref_path.strip()}
                     if "keyword" in ref_dict:

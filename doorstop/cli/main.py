@@ -8,6 +8,7 @@ import argparse
 import os
 import sys
 from pathlib import Path
+from shutil import rmtree
 from types import ModuleType
 
 from doorstop import common, settings
@@ -23,6 +24,12 @@ def findrc_file() -> Path | None:
     cwd = Path.cwd()
     doorstoprc = cwd / ".doorstoprc.py"
     return doorstoprc if doorstoprc.is_file() else None
+
+
+def clean_external() -> None:
+    external = Path.cwd() / ".doorstop-external"
+    if external.exists():
+        rmtree(external, ignore_errors=True)
 
 
 def main(args=None):  # pylint: disable=R0915
@@ -162,6 +169,12 @@ def main(args=None):  # pylint: disable=R0915
         action="store_true",
         help="display all warning-level issues as errors",
     )
+    parser.add_argument(
+        "--clean-external-docs",
+        dest="clean_ext_docs",
+        action="store_true",
+        help="Clean external documents before running any command",
+    )
 
     # Build sub-parsers
     subs = parser.add_subparsers(help="", dest="command", metavar="<command>")
@@ -181,9 +194,12 @@ def main(args=None):  # pylint: disable=R0915
 
     # Parse arguments
     args = parser.parse_args(args=args)
-
     # Configure logging
     utilities.configure_logging(args.verbose)
+
+    if args.clean_ext_docs:
+        log.info("Deleting .doorstop-external folder")
+        clean_external()
 
     # Configure settings
     run_settings = args.settings or findrc_file()
