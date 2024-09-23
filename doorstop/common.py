@@ -350,6 +350,8 @@ def dump_markdown(data, textattr):
     text = frontmatter.dumps(
         frontmatter.Post(content, **data), Dumper=yaml.dumper.Dumper
     )
+    if text[-1] != "\n":
+        text += "\n"
     return text
 
 

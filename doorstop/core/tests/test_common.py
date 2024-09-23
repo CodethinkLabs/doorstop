@@ -152,5 +152,5 @@ list:
 
 # header
 
-text text text""".lstrip(),
+text text text\n""".lstrip(),
         )
