@@ -104,3 +104,27 @@ In `path/to/file.yml`:
   have several
   lines.
 ```
+# Beta Features
+
+## External documents
+
+**Note: When you use this feature, it is designed assuming that the external parent will be responsible for identifying the root document.**
+
+It is possible to attach an external parent document (in other words an external git repo) as a parent to a local document. 
+
+The objective of this feature is to allow reusability of previous documents or even to split the work across multiple
+repos.
+
+To use this feature you need to modify `.doorstop.yml` to be similar to:
+
+```yaml
+external_parent: <GIT URL> <-- git url to used to pull the external parent **Required**
+external_parent_tag: <GIT_TAG> <-- tag or branch to be used **REQUIRED**
+settings:
+  parent: REQ <---- PREFIX from the external document **REQUIRED**
+  digits: 3
+  prefix: REQ
+  sep: ''
+```
+
+If you need to update the external tag or parent location, run doorstop with the flag `--clean-external-docs`.
