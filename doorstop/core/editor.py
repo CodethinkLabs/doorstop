@@ -7,7 +7,7 @@ import subprocess
 import sys
 import tempfile
 import time
-from distutils.spawn import find_executable
+from shutil import which as find_executable
 
 from doorstop import common
 from doorstop.common import DoorstopError
