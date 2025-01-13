@@ -125,7 +125,8 @@ class HtmlPublisher(MarkdownPublisher):
         text = tree.draw(html_links=True) if tree else None
         yield ""
         yield "<h3>Tree Structure:</h3>"
-        yield "<pre><code>" + text + "</pre></code>"
+        if text is not None:
+            yield "<pre><code>" + text + "</pre></code>"
         yield ""
         yield "<hr>"
         # Additional files
