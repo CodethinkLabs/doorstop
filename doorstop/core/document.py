@@ -880,8 +880,7 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
     @staticmethod
     def _get_issues_level(items):
         """Yield all the document's issues related to item level."""
-        prev = items[0] if items else None
-        for item in items[1:]:
+        for prev, item in zip(items, items[1:]):
             puid = prev.uid
             plev = prev.level
             nuid = item.uid
@@ -913,7 +912,6 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
                     )
                     yield DoorstopInfo(msg)
                     break
-            prev = item
 
     @delete_document
     def delete(self, path=None):
