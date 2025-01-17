@@ -194,6 +194,7 @@ def main(args=None):  # pylint: disable=R0915
 
     # Parse arguments
     args = parser.parse_args(args=args)
+
     # Configure logging
     utilities.configure_logging(args.verbose)
 
@@ -311,6 +312,17 @@ def _add(subs, shared):
         type=utilities.positive_int,
         help="number of items to create",
     )
+
+    sub.add_argument(
+        "--link",
+        help=("Doorstop Item to link this new Item to"),
+    )
+    sub.add_argument(
+        "-t",
+        "--text",
+        help=("Text to write into doorstop Item at point of creation"),
+    )
+
     sub.add_argument(
         "--edit",
         action="store_true",

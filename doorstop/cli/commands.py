@@ -177,7 +177,14 @@ def run_add(args, cwd, _, catch=True):
         request_next_number = _request_next_number(args)
         tree = _get_tree(args, cwd, request_next_number=request_next_number)
         document = tree.find_document(args.prefix)
-
+        try:
+            if args.count > 1 and (args.link or args.text):
+                raise AssertionError(
+                    "Link and Text can only be parsed when creating a single Doorstop Item!",
+                )
+        except AssertionError as argsError:
+            log.error(argsError)
+            return False
         # add items to it
         for _ in range(args.count):
             item = document.add_item(
@@ -186,6 +193,11 @@ def run_add(args, cwd, _, catch=True):
                 name=args.name,
                 reorder=args.noreorder,
             )
+
+            if args.link:
+                item.link(args.link)
+            if args.text:
+                item.set("text", args.text)
             utilities.show("added item: {} ({})".format(item.uid, item.relpath))
 
         # Edit item if requested
