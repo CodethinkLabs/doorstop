@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "doorstop"
-version = "3.0b16+codethink.0.3"
+version = "3.0b16+codethink.0.4"
 description = "Requirements management using version control."
 
 license = "LGPLv3"
@@ -13,7 +13,7 @@ exclude = ["**/tests/**"]
 
 homepage = "https://pypi.org/project/Doorstop"
 documentation = "https://doorstop.readthedocs.io"
-repository = "https://github.com/doorstop-dev/doorstop"
+repository = "https://github.com/CodethinkLabs/doorstop"
 
 keywords = [
   "requirements-management",
@@ -32,7 +32,6 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -43,17 +42,17 @@ classifiers = [
 
 [tool.poetry.dependencies]
 
-python = "^3.10"
+python = ">=3.10, <3.13"
 
-pyyaml = "^6.0"
-markdown = "^3.3.3"
+pyyaml = "~6.0"
+markdown = "~3.7"
 bottle = "~0.13.2"
-requests = "^2.0"
-python-frontmatter = "^1.0"
+requests = "~2.32"
+python-frontmatter = "~1.1"
 python-markdown-math = "~0.6"
-plantuml-markdown = "^3.4.2"
+plantuml-markdown = "~3.10"
 six = "*" # fixes https://github.com/dougn/python-plantuml/issues/11
-openpyxl = ">=3.1.2"
+openpyxl = "~3.1.5"
 setuptools = { version = ">=70", python = ">=3.12" }
 dulwich = "^0.22.1"
 
